@@ -7,11 +7,13 @@ django CMS Picture
 **django CMS Picture** is a plugin for `django CMS <http://django-cms.org>`_
 that allows you to add images on your site.
 
-This addon is compatible with `Divio Cloud <http://divio.com>`_ and is also available on the
-`django CMS Marketplace <https://marketplace.django-cms.org/en/addons/browse/djangocms-picture/>`_
-for easy installation.
-
 .. image:: preview.gif
+
+
+This Fork
+=========
+
+This fork of djangocms-picture adds retina-quality versions of thumbnail images at 2x and 3x through the ``srcset`` attribute when the images are not responsive and not external.
 
 
 Contributing
@@ -130,7 +132,7 @@ You can run tests by executing::
 
     virtualenv env
     source env/bin/activate
-    pip install -r test_requirements/base.txt
+    pip install -r tests/requirements.txt
     python setup.py test
 
 
