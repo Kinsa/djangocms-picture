@@ -13,10 +13,15 @@
 {# end render figure/figcaption #}
 
 
-<img src="{{ instance.img_src }}"
-    alt="{% if instance.attributes.alt %}{{ instance.attributes.alt }}{% elif instance.picture.default_alt_text %}{{ instance.picture.default_alt_text }}{% endif %}"
-    {% if instance.width %} width="{{ instance.width }}"{% endif %}
-    {% if instance.height %} height="{{ instance.height }}"{% endif %}
+<img 
+    {% if instance.img_retina_srcset_data %}
+    srcset="
+        {% for size, thumb in instance.img_retina_srcset_data %}
+            {{ thumb.url }} {{ size }}x,
+        {% endfor %}
+        {{ instance.img_src }} 1x
+    "
+    {% endif %}
     {% if img_srcset_data %}
         srcset="
             {% for size, thumb in img_srcset_data %}
@@ -30,6 +35,13 @@
             {% endfor %}
             {{ picture_size.size.0 }}px
         "
+    {% endif %}
+    src="{{ instance.img_src }}"
+    alt="{% if instance.attributes.alt %}{{ instance.attributes.alt }}{% elif instance.picture.default_alt_text %}{{ instance.picture.default_alt_text }}{% endif %}"
+    {% if instance.width %} width="{{ instance.width }}"{% endif %}
+    {% if instance.height %} height="{{ instance.height }}"{% endif %}
+    {% if instance.width %}
+        srcset="{% thumbnail {{ instantce.width_3x }} 3x, {{ instantce.width_2x }} 2x, {{ instance.width }}"
     {% endif %}
     {{ instance.attributes_str }}
 >

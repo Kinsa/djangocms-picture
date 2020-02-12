@@ -176,6 +176,18 @@ class PictureModelTestCase(TestCase):
         instance.external_picture = self.external_picture
         self.assertIsNone(instance.img_srcset_data)
 
+    def test_img_retina_srcset_data(self):
+        instance = self.picture
+        instance.use_responsive_image = 'no'
+        self.assertIsInstance(
+            instance.img_retina_srcset_data[0][1],
+            ThumbnailFile,
+        )
+        instance.use_responsive_image = 'yes'
+        self.assertIsNone(instance.img_retina_srcset_data)
+        instance.external_picture = self.external_picture
+        self.assertIsNone(instance.img_retina_srcset_data)
+
     def test_img_src(self):
         instance = self.picture
         # thumbnail is generated

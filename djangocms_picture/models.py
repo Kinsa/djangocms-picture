@@ -338,6 +338,24 @@ class AbstractPicture(CMSPlugin):
         return self.use_responsive_image == 'yes'
 
     @property
+    def img_retina_srcset_data(self):
+        if self.external_picture or self.is_responsive_image:
+            return None
+        srcset = []
+        thumbnailer = get_thumbnailer(self.picture)
+        picture_options = self.get_size(self.width, self.height)
+        picture_width = picture_options['size'][0]
+        picture_height = picture_options['size'][1]
+        thumbnail_options = {'crop': picture_options['crop']}
+        magnifications = [3, 2]  # 3x, 2x
+
+        for magnification in magnifications:
+            thumbnail_options['size'] = (picture_width * magnification, picture_height * magnification)
+            srcset.append((int(magnification), thumbnailer.get_thumbnail(thumbnail_options)))
+
+        return srcset
+
+    @property
     def img_srcset_data(self):
         if not (self.picture and self.is_responsive_image):
             return None
